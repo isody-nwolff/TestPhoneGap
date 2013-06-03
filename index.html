@@ -5,10 +5,6 @@
 	
     <script type="text/javascript" charset="utf-8" src="cordova-2.7.0.js"></script>
 	
-    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.css" />
-	<script src="http://code.jquery.com/jquery-1.6.4.min.js"></script> 
-	<script src="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.js"></script>
-	
     <script type="text/javascript" charset="utf-8">
 	
     document.addEventListener("deviceready", onDeviceReady, false);
@@ -40,7 +36,7 @@
 		html = html + "<li>" + "Device Platform: " + device.platform + "</li>";
 		html = html + "<li>" + "Device UUID: " + device.uuid + "</li>";
 		console.log(html);
-		$("#idDivInitDeviceCordova").html(html);
+		alert(html);
 		var db = window.openDatabase("Database", "1.0", "Cordova Demo", 200000);
         db.transaction(populateDB, errorCB, successCB);
 		
@@ -48,7 +44,7 @@
 
     </script>
   </head>
-  <body onload="javascript:onDeviceReady()">
+  <body>
     <h1>Example</h1>
     <p>Database</p>
 	<br/>
