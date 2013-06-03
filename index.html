@@ -21,6 +21,7 @@
     // Populate the database 
     //
     function populateDB(tx) {
+		alert('PopulateDB');
         tx.executeSql('DROP TABLE IF EXISTS DEMO');
         tx.executeSql('CREATE TABLE IF NOT EXISTS DEMO (id unique, data)');
         tx.executeSql('INSERT INTO DEMO (id, data) VALUES (1, "First row")');
@@ -30,12 +31,14 @@
     // Query the database
     //
     function queryDB(tx) {
+		alert('queryDB');
         tx.executeSql('SELECT * FROM DEMO', [], querySuccess, errorCB);
     }
 
     // Query the success callback
     //
     function querySuccess(tx, results) {
+	   alert('querySuccess');
         var len = results.rows.length;
 		var html = "";
         console.log("DEMO table: " + len + " rows found.");
@@ -52,12 +55,14 @@
     // Transaction error callback
     //
     function errorCB(err) {
+		alert('errorCB');
         console.log("Error processing SQL: "+err.code);
     }
 
     // Transaction success callback
     //
     function successCB() {
+	    alert('successCB');
         var db = window.openDatabase("Database", "1.0", "Cordova Demo", 200000);
         db.transaction(queryDB, errorCB);
     }
@@ -65,6 +70,7 @@
     // Cordova is ready
     //
     function onDeviceReady() {
+		alert('onDeviceReady');
         //recup  infos
 		var html = "";
 		html = html + "<li>" + 'Device Name: ' + device.name + "</li>";
