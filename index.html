@@ -1,45 +1,41 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Test Storage</title>
-	
+    <title>Storage Example</title>
+
     <script type="text/javascript" charset="utf-8" src="cordova-2.7.0.js"></script>
-	
     <script type="text/javascript" charset="utf-8">
-	
+
+    // Wait for Cordova to load
+    //
     document.addEventListener("deviceready", onDeviceReady, false);
 
-    function populateDB(tx) {
-		alert("PopulateDB");
-        tx.executeSql("DROP TABLE IF EXISTS DEMO");
-        tx.executeSql("CREATE TABLE IF NOT EXISTS DEMO (id unique, data)");
-        tx.executeSql("INSERT INTO DEMO (id, data) VALUES (1, "First row")");
-        tx.executeSql("INSERT INTO DEMO (id, data) VALUES (2, "Second row")");
-    }
-
-    function errorCB(err) {
-		alert("errorCB");
-        console.log("Error processing SQL: "+err.code);
-    }
-
-    function successCB() {
-	    alert("successCB");
-        var db = window.openDatabase("Database", "1.0", "Cordova Demo", 200000);
-        db.transaction(queryDB, errorCB);
-    }
-
+    // Cordova is ready
+    //
     function onDeviceReady() {
-		alert("onDeviceReady");
-		var html = "";
-		html = html + "<li>" + "Device Name: " + device.name + "</li>";
-		html = html + "<li>" + "Device Cordova: " + device.cordova + "</li>";
-		html = html + "<li>" + "Device Platform: " + device.platform + "</li>";
-		html = html + "<li>" + "Device UUID: " + device.uuid + "</li>";
-		console.log(html);
-		alert(html);
-		var db = window.openDatabase("Database", "1.0", "Cordova Demo", 200000);
+        var db = window.openDatabase("Database", "1.0", "Cordova Demo", 200000);
         db.transaction(populateDB, errorCB, successCB);
-		
+    }
+
+    // Populate the database
+    //
+    function populateDB(tx) {
+         tx.executeSql('DROP TABLE IF EXISTS DEMO');
+         tx.executeSql('CREATE TABLE IF NOT EXISTS DEMO (id unique, data)');
+         tx.executeSql('INSERT INTO DEMO (id, data) VALUES (1, "First row")');
+         tx.executeSql('INSERT INTO DEMO (id, data) VALUES (2, "Second row")');
+    }
+
+    // Transaction error callback
+    //
+    function errorCB(tx, err) {
+        alert("Error processing SQL: "+err);
+    }
+
+    // Transaction success callback
+    //
+    function successCB() {
+        alert("success!");
     }
 
     </script>
@@ -47,15 +43,5 @@
   <body>
     <h1>Example</h1>
     <p>Database</p>
-	<br/>
-	<div id="idDivInitDeviceCordova">
-		&nbsp;
-	</div>
-	<br/>
-	<div id="idDivResultatRequete">
-		&nbsp;
-	</div>
-	<br/>
-	<p>end</p>
   </body>
 </html>
