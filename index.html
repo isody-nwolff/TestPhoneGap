@@ -65,8 +65,12 @@
 		    //var ligInfo="Row = " + i + " ID = " + results.rows.item(i).id + " Data =  " + results.rows.item(i).data;
             //console.log(ligInfo);
 			//html = html + "<li>" + ligInfo "</li>";
-			alert(results.rows.item(i));
-			html=html+"1,";
+			
+			var objid=results.rows.item(i).id;
+			alert(objid);
+			var objdata=results.rows.item(i).data;
+			alert(objdata);
+			html=html+" "+objid+" "+objdata+"<br/>";
 			}
 		
 		//affichage
