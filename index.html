@@ -1,41 +1,83 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Storage Example</title>
+    <title>Test Storage</title>
+	
+	<!-- JQUERY -->
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.css" />
+	<script src="http://code.jquery.com/jquery-1.6.4.min.js"></script> 
+	<script src="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.js"></script>
 
-    <script type="text/javascript" charset="utf-8" src="cordova-2.7.0.js"></script>
+	<!-- PHONEGAP CORDOVA -->
+    <script type="text/javascript" charset="utf-8" src="cordova-2.4.0.js"></script>
+	
+	<!-- JAVASCRIPT -->
     <script type="text/javascript" charset="utf-8">
 	
     // Wait for Cordova to load
     //
     document.addEventListener("deviceready", onDeviceReady, false);
 
-    // Cordova is ready
-    //
-    function onDeviceReady() {
-        var db = window.openDatabase("Database", "1.0", "Cordova Demo", 200000);
-        db.transaction(populateDB, errorCB, successCB);
-    }
-
     // Populate the database 
     //
     function populateDB(tx) {
-         tx.executeSql('DROP TABLE IF EXISTS DEMO');
-         tx.executeSql('CREATE TABLE IF NOT EXISTS DEMO (id unique, data)');
-         tx.executeSql('INSERT INTO DEMO (id, data) VALUES (1, "First row")');
-         tx.executeSql('INSERT INTO DEMO (id, data) VALUES (2, "Second row")');
+        tx.executeSql('DROP TABLE IF EXISTS DEMO');
+        tx.executeSql('CREATE TABLE IF NOT EXISTS DEMO (id unique, data)');
+        tx.executeSql('INSERT INTO DEMO (id, data) VALUES (1, "First row")');
+        tx.executeSql('INSERT INTO DEMO (id, data) VALUES (2, "Second row")');
+    }
+
+    // Query the database
+    //
+    function queryDB(tx) {
+        tx.executeSql('SELECT * FROM DEMO', [], querySuccess, errorCB);
+    }
+
+    // Query the success callback
+    //
+    function querySuccess(tx, results) {
+        var len = results.rows.length;
+		var html = "";
+        console.log("DEMO table: " + len + " rows found.");
+        for (var i=0; i<len; i++){
+		    var ligInfo="Row = " + i + " ID = " + results.rows.item(i).id + " Data =  " + results.rows.item(i).data;
+            console.log(ligInfo);
+			html = html + "<li>" + ligInfo "</li>";
+        }
+		//affichage
+		console.log(html);
+		$("#idDivResultatRequete").html(html);
     }
 
     // Transaction error callback
     //
-    function errorCB(tx, err) {
-        alert("Error processing SQL: "+err);
+    function errorCB(err) {
+        console.log("Error processing SQL: "+err.code);
     }
 
     // Transaction success callback
     //
     function successCB() {
-        alert("success!");
+        var db = window.openDatabase("Database", "1.0", "Cordova Demo", 200000);
+        db.transaction(queryDB, errorCB);
+    }
+
+    // Cordova is ready
+    //
+    function onDeviceReady() {
+        //recup  infos
+		var html = "";
+		html = html + "<li>" + 'Device Name: ' + device.name + "</li>";
+		html = html + "<li>" + 'Device Cordova: ' + device.cordova + "</li>";
+		html = html + "<li>" + 'Device Platform: ' + device.platform + "</li>";
+		html = html + "<li>" + 'Device UUID: ' + device.uuid + "</li>";
+		//affichage
+		console.log(html);
+		$("#idDivInitDeviceCordova").html(html);
+		//init base de données
+		var db = window.openDatabase("Database", "1.0", "Cordova Demo", 200000);
+        db.transaction(populateDB, errorCB, successCB);
+		
     }
 
     </script>
@@ -43,5 +85,14 @@
   <body>
     <h1>Example</h1>
     <p>Database</p>
+	<br/>
+	<div id="idDivInitDeviceCordova">
+		&nbsp;
+	</div>
+	<br/>
+	<div id="idDivResultatRequete">
+		&nbsp;
+	</div>
+	<br/>
   </body>
 </html>
