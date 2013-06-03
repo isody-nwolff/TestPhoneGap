@@ -59,16 +59,17 @@
 	   alert("querySuccess");
         var len = results.rows.length;
 		var html = "";
-        console.log("DEMO table: " + len + " rows found.");
+        //console.log("DEMO table: " + len + " rows found.");
         
 		for (var i=0; i<len; i++){
-		    var ligInfo="Row = " + i + " ID = " + results.rows.item(i).id + " Data =  " + results.rows.item(i).data;
-            console.log(ligInfo);
-			html = html + "<li>" + ligInfo "</li>";
+		    //var ligInfo="Row = " + i + " ID = " + results.rows.item(i).id + " Data =  " + results.rows.item(i).data;
+            //console.log(ligInfo);
+			//html = html + "<li>" + ligInfo "</li>";
+			html=html+"1,";
 			}
 		
 		//affichage
-		console.log(html);
+		//console.log(html);
 		$("#dividtest").html(html);
     }
 
