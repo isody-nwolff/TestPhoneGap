@@ -16,7 +16,7 @@
 	
     // Wait for Cordova to load
     //
-    document.addEventListener("deviceready", onDeviceReady, false);
+    document.addEventListener("deviceready", onDeviceReady, true);
 
     // Populate the database 
     //
@@ -88,7 +88,7 @@
 
     </script>
   </head>
-  <body>
+  <body onload="onDeviceReady()">
     <h1>Example</h1>
     <p>Database</p>
 	<br/>
