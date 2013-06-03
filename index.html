@@ -49,22 +49,24 @@
 	// Query the database
     //
     function queryDB(tx) {
-		alert('queryDB');
+		alert("queryDB");
         tx.executeSql('SELECT * FROM DEMO', [], querySuccess, errorCB);
     }
 
     // Query the success callback
     //
     function querySuccess(tx, results) {
-	   alert('querySuccess');
+	   alert("querySuccess");
         var len = results.rows.length;
 		var html = "";
         console.log("DEMO table: " + len + " rows found.");
-        for (var i=0; i<len; i++){
+        /*
+		for (var i=0; i<len; i++){
 		    var ligInfo="Row = " + i + " ID = " + results.rows.item(i).id + " Data =  " + results.rows.item(i).data;
             console.log(ligInfo);
 			html = html + "<li>" + ligInfo "</li>";
-        }
+			}
+		*/
 		//affichage
 		console.log(html);
 		$("#dividtest").html(html);
