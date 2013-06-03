@@ -3,6 +3,11 @@
   <head>
     <title>Storage Example</title>
 
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.css" />
+	
+	<script src="http://code.jquery.com/jquery-1.6.4.min.js"></script> 
+	<script src="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.js"></script>
+	
     <script type="text/javascript" charset="utf-8" src="cordova-2.7.0.js"></script>
     <script type="text/javascript" charset="utf-8">
 
@@ -36,6 +41,7 @@
     //
     function successCB() {
         alert("success!");
+		$("#dividtest").html("test done");
     }
 
     </script>
@@ -43,6 +49,9 @@
   <body>
     <h1>Example</h1>
     <p>Database</p>
+	<div id="dividtest">
+	  &nbsp;
+	</div>
 	<p>end</p>
   </body>
 </html>
