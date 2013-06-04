@@ -60,7 +60,7 @@
 	//callback ERREUR 
     function errorInitStructureTable(tx, err) {
 		//(ne devrait pas arriver)
-        alert("Error processing SQL: "+err);
+        alert("Error processing SQL STRUCTURE: "+err);
 		InitialisationAffichage();
     }
 	
@@ -102,7 +102,7 @@
 	//callback erreur refresh
 	function errorQueryRefresh(tx, err) {
 		//(ne devrait pas arriver)
-        alert("Error processing SQL: "+err);
+        alert("Error processing SQL REFRESH: "+err);
 		//reinit affichage		
 		InitialisationAffichage();
 	}
@@ -115,8 +115,8 @@
 		var html = "";
 		for (var i=0; i<len; i++)
 		{
-			var objid=results.rows.item(i).id;
-			var objdata=results.rows.item(i).data;
+			var objid=results.rows.item(i).ID;
+			var objdata=results.rows.item(i).DATA;
 			html=html+" "+objid+" "+objdata+"<br/>";
 		}		
 		//affichage
@@ -150,7 +150,7 @@
 		//init zone saisie
 		$("#idReferenceInput").val("");
 		//(ne devrait pas arriver)
-        alert("Error processing SQL: "+err);
+        alert("Error processing SQL INSERT: "+err);
 		//init affichage
 		InitialisationAffichage();
     }
@@ -168,7 +168,7 @@
 	function executeQueryInsert(tx) 
 	{
 		var valeur=$("#idReferenceInput").val();
-        tx.executeSql('INSERT INTO DEMO (data) VALUES ("'+valeur+'")');
+        tx.executeSql('INSERT INTO DEMO (DATA) VALUES ("'+valeur+'")');
     }
 	
     </script>
