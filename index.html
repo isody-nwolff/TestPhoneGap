@@ -97,7 +97,9 @@
 	function executeQueryRefreshAffichage(tx) 
 	{
 		alert("executeQueryRefreshAffichage");
-        tx.executeSql("SELECT * FROM "+G_TableName, [], successQueryRefresh, errorQueryRefresh);
+		var sql="SELECT * FROM "+G_TableName;
+		alert(sql);
+        tx.executeSql(sql, [], successQueryRefresh, errorQueryRefresh);
     }
 	
 	//callback erreur refresh
@@ -116,14 +118,21 @@
 		var html = "";
 		try
 		{
-			var len = results.rows.length;
-			alert("len"+len);
-			for (var i=0; i<len; i++)
-			{			
-				alert("for "+i);
-				var objid=results.rows.item(i).ID;
-				var objdata=results.rows.item(i).DATA;
-				html=html+" "+objid+" "+objdata+"<br/>";
+			if (results)
+			{
+				var len = results.rows.length;
+				alert("len"+len);
+				for (var i=0; i<len; i++)
+				{			
+					alert("for "+i);
+					var objid=results.rows.item(i).ID;
+					var objdata=results.rows.item(i).DATA;
+					html=html+" "+objid+" "+objdata+"<br/>";
+				}
+			}
+			else
+			{
+				alert("result is not defined");
 			}
 		}
 		catch(e)
