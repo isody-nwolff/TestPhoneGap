@@ -104,7 +104,7 @@
 	function errorQueryRefresh(tx, err) 
 	{
 		//(ne devrait pas arriver)
-        alert("Error processing SQL REFRESH: "+err);
+        alert("Error processing SQL REFRESH: "+err.message);
 		//reinit affichage		
 		InitialisationAffichage();
 	}
