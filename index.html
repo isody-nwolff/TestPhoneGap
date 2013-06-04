@@ -87,6 +87,7 @@
 	//procedure pricniaple refresh affichage
 	function RefreshAffichage()
 	{
+		alert("RefreshAffichage");
 		//execution recherche liste enreg
 		var db = getDataBase();
         db.transaction(executeQueryRefreshAffichage, errorQueryRefresh);
@@ -95,11 +96,13 @@
 	//fct exec query refresh
 	function executeQueryRefreshAffichage(tx) 
 	{
+		alert("executeQueryRefreshAffichage");
         tx.executeSql('SELECT * FROM "+G_TableName+"', [], successQueryRefresh, errorQueryRefresh);
     }
 	
 	//callback erreur refresh
-	function errorQueryRefresh(tx, err) {
+	function errorQueryRefresh(tx, err) 
+	{
 		//(ne devrait pas arriver)
         alert("Error processing SQL REFRESH: "+err);
 		//reinit affichage		
@@ -109,6 +112,7 @@
 	//callback ok
 	function successQueryRefresh()
 	{
+		alert("successQueryRefresh");
 		//query select ok -> recup lst enregs
 		var len = results.rows.length;
 		var html = "";
