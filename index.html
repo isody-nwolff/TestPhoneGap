@@ -1,91 +1,154 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Storage Example</title>
+    <title>Test Storage</title>
 
-	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.css" />
-	
+	<!-- jquery -->
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.css" />	
 	<script src="http://code.jquery.com/jquery-1.6.4.min.js"></script> 
 	<script src="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.js"></script>
 	
+	<!-- phonegap -->
     <script type="text/javascript" charset="utf-8" src="cordova-2.7.0.js"></script>
+	
+	<!--  code javascript -->
     <script type="text/javascript" charset="utf-8">
 
-    // Wait for Cordova to load
-    //
+	//----------- init ----------
+	
+	//ajout declencheur evt init 
     document.addEventListener("deviceready", onDeviceReady, false);
-
-    // Cordova is ready
-    //
-    function onDeviceReady() {
-        var db = window.openDatabase("Database", "1.0", "Cordova Demo", 200000);
-        db.transaction(populateDB, errorCB, successCB);
-    }
-
-    // Populate the database
-    //
-    function populateDB(tx) {
-         tx.executeSql('DROP TABLE IF EXISTS DEMO');
-         tx.executeSql('CREATE TABLE IF NOT EXISTS DEMO (id unique, data)');
-         tx.executeSql('INSERT INTO DEMO (id, data) VALUES (1, "First row")');
-         tx.executeSql('INSERT INTO DEMO (id, data) VALUES (2, "Second row")');
-    }
-
-    // Transaction error callback
-    //
-    function errorCB(tx, err) {
-        alert("Error processing SQL: "+err);
-    }
-
-    // Transaction success callback
-    //
-    function successCB() {
-        alert("success!");
-		$("#dividtest").html("test done");
-		var db1 = window.openDatabase("Database", "1.0", "Cordova Demo", 200000);
-        db1.transaction(queryDB, errorCB);
+	
+	//EVT INITIALISATION DEVICE -> on apple fct initialisation
+	function onDeviceReady() 
+	{	
+		//device ready -> on execute code initialisation
+		InitialisationApplication();
     }
 	
-	// Query the database
-    //
-    function queryDB(tx) {
-		alert("queryDB");
-        tx.executeSql('SELECT * FROM DEMO', [], querySuccess, errorCB);
+	//fct initilisation
+	function InitialisationApplication()
+	{
+		//init affichage
+		InitialisationAffichage();
+		//init structure base de données
+		//recuperation base de données
+        var db = getDataBase();
+		//on va verifier si la base de données existe -> sinon on va recréer les données		
+        db.transaction(initStructureTable, errorInitStructureTable, successInitStructureTable);
+	}
+	
+	//----------- base de données ------------
+	
+	//recuperation base de données
+	function getDataBase()
+	{
+		db = window.openDatabase("Database", "1.0", "Cordova Demo", 200000);
+		return db;
+	}
+
+	//----------------structure base ---------------------
+	
+	//methode princ
+	function initStructureTable(tx) {
+         //tx.executeSql('DROP TABLE IF EXISTS DEMO'); on ne supprime pas les données existantes
+         tx.executeSql('CREATE TABLE IF NOT EXISTS DEMO (id unique, data)');
+         //tx.executeSql('INSERT INTO DEMO (id, data) VALUES (1, "First row")');
+         //tx.executeSql('INSERT INTO DEMO (id, data) VALUES (2, "Second row")');
     }
 
-    // Query the success callback
-    //
-    function querySuccess(tx, results) {
-	   alert("querySuccess");
-        var len = results.rows.length;
-		var html = "";
-        //console.log("DEMO table: " + len + " rows found.");
-        
-		for (var i=0; i<len; i++){
-		    //var ligInfo="Row = " + i + " ID = " + results.rows.item(i).id + " Data =  " + results.rows.item(i).data;
-            //console.log(ligInfo);
-			//html = html + "<li>" + ligInfo "</li>";
-			
-			var objid=results.rows.item(i).id;
-			alert(objid);
-			var objdata=results.rows.item(i).data;
-			alert(objdata);
-			html=html+" "+objid+" "+objdata+"<br/>";
-			}
-		
-		//affichage
-		//console.log(html);
-		$("#dividtest").html(html);
+	//callback ERREUR 
+    function errorInitStructureTable(tx, err) {
+		//(ne devrait pas arriver)
+        alert("Error processing SQL: "+err);
+		InitialisationAffichage();
     }
+	
+	//callback OK -> on lance REFRESHAFFICHAGE
+	function successInitStructureTable() {
+        //alert("success!");
+		RefreshAffichage();
+    }
+	
+	//----------------- INIT AFFICHAGE -----------------------
+	
+	//nit affichage
+	function InitialisationAffichage()
+	{
+		$("#idInsertNewitem").Hide();
+		$("#idLstEnregistrement").html("Aucun enregistrement");
+	}
+	
+	//-----------------REFRESH AFFICHAGE---------------------
+	
+	//procedure pricniaple refresh affichage
+	function RefreshAffichage()
+	{
+		//execution recherche liste enreg
+		var db = getDataBase();
+        db.transaction(queryRefreshAffichage, errorQueryRefresh);
+	}
+	
+	//fct exec query refresh
+	function queryRefreshAffichage(tx) 
+	{
+        tx.executeSql('SELECT * FROM DEMO', [], successQueryRefresh, errorQueryRefresh);
+    }
+	
+	//callback erreur refresh
+	function errorQueryRefresh(tx, err) {
+		//(ne devrait pas arriver)
+        alert("Error processing SQL: "+err);
+		//reinit affichage		
+		InitialisationAffichage();
+	}
+	
+	//callback ok
+	function successQueryRefresh()
+	{
+		//query select ok -> recup lst enregs
+		var len = results.rows.length;
+		var html = "";
+		for (var i=0; i<len; i++)
+		{
+			var objid=results.rows.item(i).id;
+			var objdata=results.rows.item(i).data;
+			html=html+" "+objid+" "+objdata+"<br/>";
+		}		
+		//affichage
+		$("#idLstEnregistrement").html(html);
+		//on affichage le formulaire insertion
+		$("#idInsertNewitem").show();
+	}
+	
+	//---------------insertion nouvel erneg ---------------
+	
+	function InsertionEnregistrement()
+	{
+		alert("insert");
+	}
+		
 
     </script>
   </head>
+  
+  
   <body>
-    <h1>Example</h1>
+    <h1>Test storage</h1>
     <p>Database</p>
-	<div id="dividtest">
-	  &nbsp;
+	
+	<div id="idInsertNewitem" style="display:none">
+	  <form>
+		<label> Nouvelle Reference </label>
+		<input type="text" id="idReferenceInput" name="idReferenceInput">
+		<input type="button" value="Inserer" onClick=javascript:InsertionEnregistrement()> 
+	  </form>
 	</div>
+	
+	<div id="idLstEnregistrement" style="display:block">
+	  Aucun enregistrement<br/>
+	</div>
+	
 	<p>end</p>
   </body>
 </html>
