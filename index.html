@@ -16,6 +16,8 @@
 
 	//----------- init ----------
 	
+	var G_TableName="TESTDEMO";
+	
 	//ajout declencheur evt init 
     document.addEventListener("deviceready", onDeviceReady, false);
 	
@@ -43,7 +45,7 @@
 	//recuperation base de données
 	function getDataBase()
 	{
-		db = window.openDatabase("Database", "1.0", "Cordova Demo", 200000);
+		db = window.openDatabase("Database", "1.0", "Cordova "+G_TableName+"", 200000);
 		return db;
 	}
 
@@ -51,10 +53,7 @@
 	
 	//methode execution initialisation de la base de données
 	function executeInitStructureTable(tx) {
-         //tx.executeSql('DROP TABLE IF EXISTS DEMO'); on ne supprime pas les données existantes
-         tx.executeSql('CREATE TABLE IF NOT EXISTS DEMO (ID INTEGER PRIMARY KEY AUTOINCREMENT, DATA TEXT)');
-         //tx.executeSql('INSERT INTO DEMO (id, data) VALUES (1, "First row")');
-         //tx.executeSql('INSERT INTO DEMO (id, data) VALUES (2, "Second row")');
+         tx.executeSql('CREATE TABLE IF NOT EXISTS "+G_TableName+" (ID INTEGER PRIMARY KEY AUTOINCREMENT, DATA TEXT)');
     }
 
 	//callback ERREUR 
@@ -96,7 +95,7 @@
 	//fct exec query refresh
 	function executeQueryRefreshAffichage(tx) 
 	{
-        tx.executeSql('SELECT * FROM DEMO', [], successQueryRefresh, errorQueryRefresh);
+        tx.executeSql('SELECT * FROM "+G_TableName+"', [], successQueryRefresh, errorQueryRefresh);
     }
 	
 	//callback erreur refresh
@@ -168,7 +167,7 @@
 	function executeQueryInsert(tx) 
 	{
 		var valeur=$("#idReferenceInput").val();
-        tx.executeSql('INSERT INTO DEMO (DATA) VALUES ("'+valeur+'")');
+        tx.executeSql('INSERT INTO "+G_TableName+" (DATA) VALUES ("'+valeur+'")');
     }
 	
     </script>
