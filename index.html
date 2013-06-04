@@ -115,9 +115,11 @@
 		alert("successQueryRefresh");
 		//query select ok -> recup lst enregs
 		var len = results.rows.length;
+		alert("len"+len);
 		var html = "";
 		for (var i=0; i<len; i++)
 		{
+			alert("for "+i);
 			var objid=results.rows.item(i).ID;
 			var objdata=results.rows.item(i).DATA;
 			html=html+" "+objid+" "+objdata+"<br/>";
