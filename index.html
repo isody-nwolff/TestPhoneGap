@@ -114,15 +114,22 @@
 	{
 		alert("successQueryRefresh");
 		var html = "";
-		var len = results.rows.length;
-		alert("len"+len);
-		for (var i=0; i<len; i++)
-		{			
-			alert("for "+i);
-			var objid=results.rows.item(i).id;
-			var objdata=results.rows.item(i).data;
-			html=html+" "+objid+" "+objdata+"<br/>";
-		}	
+		try
+		{
+			var len = results.rows.length;
+			alert("len"+len);
+			for (var i=0; i<len; i++)
+			{			
+				alert("for "+i);
+				var objid=results.rows.item(i).ID;
+				var objdata=results.rows.item(i).DATA;
+				html=html+" "+objid+" "+objdata+"<br/>";
+			}
+		}
+		catch(e)
+		{
+			alert(e.message);
+		}		
 		//affichage
 		$("#idLstEnregistrement").html(html);
 		//on affichage le formulaire insertion
