@@ -114,18 +114,15 @@
 	{
 		alert("successQueryRefresh");
 		var html = "";
-		/*
 		var len = results.rows.length;
 		alert("len"+len);
 		for (var i=0; i<len; i++)
-		{
-			
+		{			
 			alert("for "+i);
-			var objid=results.rows.item(i).ID;
-			var objdata=results.rows.item(i).DATA;
+			var objid=results.rows.item(i).id;
+			var objdata=results.rows.item(i).data;
 			html=html+" "+objid+" "+objdata+"<br/>";
 		}	
-		*/
 		//affichage
 		$("#idLstEnregistrement").html(html);
 		//on affichage le formulaire insertion
@@ -136,10 +133,12 @@
 	
 	function InsertionEnregistrement()
 	{
+		alert("InsertionEnregistrement");
 		//verification zone de texte non vide
 		var valeur=$("#idReferenceInput").val();
-		if (val.length>0)
+		if (valeur.length>0)
 		{
+			alert("val "+valeur);
 			//recuperation base de données
 			var db = getDataBase();
 			//on va verifier si la base de données existe -> sinon on va recréer les données		
@@ -154,10 +153,8 @@
 	//callback ERREUR 
     function errorQueryInsert(tx, err) 
 	{
-		//init zone saisie
-		$("#idReferenceInput").val("");
 		//(ne devrait pas arriver)
-        alert("Error processing SQL INSERT: "+err);
+        alert("Error processing SQL INSERT: "+err.message);
 		//init affichage
 		InitialisationAffichage();
     }
@@ -165,6 +162,7 @@
 	//callback ok 
     function successQueryInsert(tx, err) 
 	{
+		alert("Insertion ok");
 		//init zone saisie
 		$("#idReferenceInput").val("");
 		//insertion ok execution refresh affichage
@@ -174,6 +172,7 @@
 	//Execution query insert
 	function executeQueryInsert(tx) 
 	{
+		alert("execute insert");
 		var valeur=$("#idReferenceInput").val();
         tx.executeSql("INSERT INTO "+G_TableName+" (DATA) VALUES ('"+valeur+"')");
     }
