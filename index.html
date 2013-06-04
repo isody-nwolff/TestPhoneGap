@@ -199,7 +199,7 @@
 	//fct princiaple effacer enregistrement
 	function EffacerEnregistrement(idtodelete) 
 	{
-		alert("effacer enreg "+idtodelete);
+		//alert("effacer enreg "+idtodelete);
 		if (idtodelete>0)
 		{
 			if (confirm("Voulez-vous effacer l'enregistrement ?")) 
@@ -209,7 +209,7 @@
 				db.transaction(
 					function(transaction)
 					{
-						alert("delete call");
+						//alert("delete call");
 						queryDeleteItemsItems(transaction, idtodelete);
 					}, errorQueryDelete
 				);
@@ -220,7 +220,7 @@
 	//execute delete with param
 	function queryDeleteItemsItems(tx,idtodelete) 
 	{
-		alert("Execute query delete");
+		//alert("Execute query delete");
 		tx.executeSql("DELETE FROM "+G_TableName+" WHERE ID =" + idtodelete, [], RefreshAffichage, errorQueryDelete);
 	}
 	
