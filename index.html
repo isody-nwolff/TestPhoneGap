@@ -115,18 +115,31 @@
 		alert("successQueryRefresh");
 		var html = "";
 		//query select ok -> recup lst enregs		
-		
-		var len = results.rows.length;
-		alert("len"+len);
-		/*
-		for (var i=0; i<len; i++)
+		if (results)
 		{
-			alert("for "+i);
-			var objid=results.rows.item(i).ID;
-			var objdata=results.rows.item(i).DATA;
-			html=html+" "+objid+" "+objdata+"<br/>";
-		}	
-		*/
+			alert("results");
+			if (results.rows)
+			{
+				alert("rows");
+				var len = results.rows.length;
+				alert("len"+len);
+				for (var i=0; i<len; i++)
+				{
+					alert("for "+i);
+					var objid=results.rows.item(i).ID;
+					var objdata=results.rows.item(i).DATA;
+					html=html+" "+objid+" "+objdata+"<br/>";
+				}	
+			}
+			else
+			{
+				alert("no row");
+			}
+		}
+		else
+		{
+			alert("no results");
+		}
 		//affichage
 		$("#idLstEnregistrement").html(html);
 		//on affichage le formulaire insertion
