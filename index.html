@@ -16,7 +16,7 @@
 
 	//----------- init ----------
 	
-	var G_TableName="TESTDEMO";
+    var G_TableName = "TESTDEMO";
 	
 	//ajout declencheur evt init 
     document.addEventListener("deviceready", onDeviceReady, false);
@@ -114,6 +114,7 @@
 	{
 		alert("successQueryRefresh");
 		var html = "";
+		/*
 		var len = results.rows.length;
 		alert("len"+len);
 		for (var i=0; i<len; i++)
@@ -124,6 +125,7 @@
 			var objdata=results.rows.item(i).DATA;
 			html=html+" "+objid+" "+objdata+"<br/>";
 		}	
+		*/
 		//affichage
 		$("#idLstEnregistrement").html(html);
 		//on affichage le formulaire insertion
