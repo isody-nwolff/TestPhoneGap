@@ -16,6 +16,7 @@
 
 	//----------- init ----------
 	
+	//nom table
     var G_TableName = "TESTDEMO";
 	
 	//ajout declencheur evt init 
@@ -87,7 +88,7 @@
 	//procedure pricniaple refresh affichage
 	function RefreshAffichage()
 	{
-		alert("RefreshAffichage");
+		//alert("RefreshAffichage");
 		//execution recherche liste enreg
 		var db = getDataBase();
         db.transaction(executeQueryRefreshAffichage, errorQueryRefresh);
@@ -96,9 +97,9 @@
 	//fct exec query refresh
 	function executeQueryRefreshAffichage(tx) 
 	{
-		alert("executeQueryRefreshAffichage");
+		//alert("executeQueryRefreshAffichage");
 		var sql="SELECT * FROM "+G_TableName;
-		alert(sql);
+		//alert(sql);
         tx.executeSql(sql, [], successQueryRefresh, errorQueryRefresh);
     }
 	
@@ -114,17 +115,17 @@
 	//callback ok
 	function successQueryRefresh(tx, results)
 	{
-		alert("successQueryRefresh");
+		//alert("successQueryRefresh");
 		var html = "";
 		try
 		{
 			if (results)
 			{
 				var len = results.rows.length;
-				alert("len"+len);
+				//alert("len"+len);
 				for (var i=0; i<len; i++)
 				{			
-					alert("for "+i);
+					//alert("for "+i);
 					var objid=results.rows.item(i).ID;
 					var objdata=results.rows.item(i).DATA;
 					html=html+" "+objid+" "+objdata+"<br/>";
@@ -132,12 +133,12 @@
 			}
 			else
 			{
-				alert("result is not defined");
+				//alert("result is not defined");
 			}
 		}
 		catch(e)
 		{
-			alert(e.message);
+			alert("Exception QueryRefresh "+e.message);
 		}		
 		//affichage
 		$("#idLstEnregistrement").html(html);
@@ -149,12 +150,12 @@
 	
 	function InsertionEnregistrement()
 	{
-		alert("InsertionEnregistrement");
+		//alert("InsertionEnregistrement");
 		//verification zone de texte non vide
 		var valeur=$("#idReferenceInput").val();
 		if (valeur.length>0)
 		{
-			alert("val "+valeur);
+			//alert("val "+valeur);
 			//recuperation base de données
 			var db = getDataBase();
 			//on va verifier si la base de données existe -> sinon on va recréer les données		
@@ -178,7 +179,7 @@
 	//callback ok 
     function successQueryInsert(tx, err) 
 	{
-		alert("Insertion ok");
+		//alert("Insertion ok");
 		//init zone saisie
 		$("#idReferenceInput").val("");
 		//insertion ok execution refresh affichage
@@ -188,7 +189,16 @@
 	//Execution query insert
 	function executeQueryInsert(tx) 
 	{
-		alert("execute insert");
+		//alert("execute insert");
+		var valeur=$("#idReferenceInput").val();
+        tx.executeSql("INSERT INTO "+G_TableName+" (DATA) VALUES ('"+valeur+"')");
+    }
+	
+	//----- effacer enregistrement----------------
+	
+	function executeQueryInsert(idtodelete) 
+	{
+		//alert("execute insert");
 		var valeur=$("#idReferenceInput").val();
         tx.executeSql("INSERT INTO "+G_TableName+" (DATA) VALUES ('"+valeur+"')");
     }
