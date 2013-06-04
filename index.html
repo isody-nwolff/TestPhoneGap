@@ -128,7 +128,7 @@
 					//alert("for "+i);
 					var objid=results.rows.item(i).ID;
 					var objdata=results.rows.item(i).DATA;
-					html=html+" "+objid+" "+objdata+"<br/>";
+					html=html+" "+objid+" "+objdata+" "+"<a href='EffacerEnregistrement("+objid+")' > Supprimer </a>"+"<br/>";
 				}
 			}
 			else
@@ -158,7 +158,7 @@
 			//alert("val "+valeur);
 			//recuperation base de données
 			var db = getDataBase();
-			//on va verifier si la base de données existe -> sinon on va recréer les données		
+			//execution requete insert	
 			db.transaction(executeQueryInsert, errorQueryInsert, successQueryInsert);
 		}
 		else
@@ -196,11 +196,43 @@
 	
 	//----- effacer enregistrement----------------
 	
-	function executeQueryInsert(idtodelete) 
+	//fct princiaple effacer enregistrement
+	function EffacerEnregistrement(idtodelete) 
 	{
-		//alert("execute insert");
-		var valeur=$("#idReferenceInput").val();
-        tx.executeSql("INSERT INTO "+G_TableName+" (DATA) VALUES ('"+valeur+"')");
+		alert("effacer enreg "+idtodelete);
+		if (idtodelete>0)
+		{
+			if (confirm("Voulez-vous effacer l'enregistrement ?")) 
+			{ 
+				var db = getDataBase();
+				//execution requete effacement		
+				db.transaction(
+					function(transaction)
+					{
+						alert("delete call");
+						queryDeleteItemsItems(transaction, idtodelete);
+					}, errorQueryDelete
+				);
+			}
+		}
+    }
+	
+	//execute delete with param
+	function queryDeleteItemsItems(tx,idtodelete) 
+	{
+		alert("Execute query delete");
+		tx.executeSql("DELETE FROM "+G_TableName+" WHERE ID =" + idtodelete, [], RefreshAffichage, errorQueryDelete);
+	}
+	
+	//callback ERREUR 
+    function errorQueryDelete(tx, err) 
+	{
+		//(ne devrait pas arriver)
+        alert("Error processing SQL DELETE: "+err.message);
+		//init affichage
+		InitialisationAffichage();
+		//refresh 
+		RefreshAffichage();
     }
 	
     </script>
