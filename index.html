@@ -35,7 +35,7 @@
 		//recuperation base de données
         var db = getDataBase();
 		//on va verifier si la base de données existe -> sinon on va recréer les données		
-        db.transaction(initStructureTable, errorInitStructureTable, successInitStructureTable);
+        db.transaction(executeInitStructureTable, errorInitStructureTable, successInitStructureTable);
 	}
 	
 	//----------- base de données ------------
@@ -49,10 +49,10 @@
 
 	//----------------structure base ---------------------
 	
-	//methode princ
-	function initStructureTable(tx) {
+	//methode execution initialisation de la base de données
+	function executeInitStructureTable(tx) {
          //tx.executeSql('DROP TABLE IF EXISTS DEMO'); on ne supprime pas les données existantes
-         tx.executeSql('CREATE TABLE IF NOT EXISTS DEMO (id unique, data)');
+         tx.executeSql('CREATE TABLE IF NOT EXISTS DEMO (ID INTEGER PRIMARY KEY AUTOINCREMENT, DATA TEXT)');
          //tx.executeSql('INSERT INTO DEMO (id, data) VALUES (1, "First row")');
          //tx.executeSql('INSERT INTO DEMO (id, data) VALUES (2, "Second row")');
     }
@@ -75,7 +75,11 @@
 	//nit affichage
 	function InitialisationAffichage()
 	{
-		$("#idInsertNewitem").Hide();
+		//init zone saisie
+		$("#idReferenceInput").val("");
+		//cache formulaire insert
+		$("#idInsertNewitem").hide();
+		//init lst enreg
 		$("#idLstEnregistrement").html("Aucun enregistrement");
 	}
 	
@@ -86,11 +90,11 @@
 	{
 		//execution recherche liste enreg
 		var db = getDataBase();
-        db.transaction(queryRefreshAffichage, errorQueryRefresh);
+        db.transaction(executeQueryRefreshAffichage, errorQueryRefresh);
 	}
 	
 	//fct exec query refresh
-	function queryRefreshAffichage(tx) 
+	function executeQueryRefreshAffichage(tx) 
 	{
         tx.executeSql('SELECT * FROM DEMO', [], successQueryRefresh, errorQueryRefresh);
     }
@@ -125,10 +129,48 @@
 	
 	function InsertionEnregistrement()
 	{
-		alert("insert");
+		//verification zone de texte non vide
+		var valeur=$("#idReferenceInput").val();
+		if (val.length>0)
+		{
+			//recuperation base de données
+			var db = getDataBase();
+			//on va verifier si la base de données existe -> sinon on va recréer les données		
+			db.transaction(executeQueryInsert, errorQueryInsert, successQueryInsert);
+		}
+		else
+		{
+			alert("Saisir une reference");
+		}
 	}
 		
-
+	//callback ERREUR 
+    function errorQueryInsert(tx, err) 
+	{
+		//init zone saisie
+		$("#idReferenceInput").val("");
+		//(ne devrait pas arriver)
+        alert("Error processing SQL: "+err);
+		//init affichage
+		InitialisationAffichage();
+    }
+	
+	//callback ok 
+    function successQueryInsert(tx, err) 
+	{
+		//init zone saisie
+		$("#idReferenceInput").val("");
+		//insertion ok execution refresh affichage
+		RefreshAffichage();
+    }
+	
+	//Execution query insert
+	function executeQueryInsert(tx) 
+	{
+		var valeur=$("#idReferenceInput").val();
+        tx.executeSql('INSERT INTO DEMO (data) VALUES ("'+valeur+'")');
+    }
+	
     </script>
   </head>
   
